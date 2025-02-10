@@ -9,7 +9,7 @@
 
 volatile int isledon = 0;
 
-const int estados[5][2] = {{0,0},{BRIGHT, 0},{0,0},{BRIGHT,BRIGHT},{0, BRIGHT}};
+const int estados[6][2] = {{0,0},{BRIGHT, 0},{0,0},{BRIGHT,BRIGHT},{0, 0}, {0, BRIGHT}};
 
 void init_pins();
 void setup_pwm(uint pino, int nivel);
@@ -18,7 +18,7 @@ void switch_leds();
 
 int main()
 {
-	gpio_init_all();
+	stdio_init_all();
 	init_pins();
 
 	repeating_timer_t timer;
@@ -55,15 +55,15 @@ void setup_pwm(uint pino, int nivel)
 	gpio_set_function(pino, GPIO_FUNC_PWM);
 	uint slice = pwm_gpio_to_slice_num(pino);
 	pwm_set_wrap(slice, 255);
-	pwm_set_chan_level(slice, pwm_pin_to_channel(pino), nivel);
+	pwm_set_chan_level(slice, pwm_gpio_to_channel(pino), nivel);
 	pwm_set_enabled(slice, true);
 }
 
 void switch_leds()
 {
-	setup_pwm(PIN_R, estados[isledon][0];
-	setup_pwm(PIN_G, estados[isledon][1];
-	isledon = (isledon+1)%5;
+	setup_pwm(PIN_R, estados[isledon][0]);
+	setup_pwm(PIN_G, estados[isledon][1]);
+	isledon = (isledon+1)%6;
 }
 
 // ordem do led: off -> red -> off ->  ylw -> green -> repeat...
